@@ -79,6 +79,7 @@ namespace Infrastructure.Data
 
         public void EditarCliente(Cliente cliente)
         {
+            
             using SqlConnection con = new SqlConnection(_configuration);
             {
                 SqlCommand cmd = new SqlCommand("Sp_EditarClientes", con);
@@ -88,7 +89,7 @@ namespace Infrastructure.Data
                 cmd.Parameters.AddWithValue("@Nombre", cliente.Nombre);
                 cmd.Parameters.AddWithValue("@Apellido", cliente.Apellido);
                 cmd.Parameters.AddWithValue("@Documento", cliente.Documento);
-
+                cmd.Parameters.AddWithValue("@isActive", cliente.IsActive);
                 con.Open();
                 cmd.ExecuteNonQuery();
             }

@@ -88,5 +88,73 @@ namespace Infrastructure.Data
             }
             return productos;
         }
+
+        public LoteProducto InsertarLoteProducto(LoteProducto loteProducto)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(_configuration))
+            {
+                SqlCommand cmd = new SqlCommand("[dbo].[Sp_InsertarLote]", sqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                using SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+
+                sqlConnection.Open();
+                da.Fill(ds);
+
+                // Verificamos que el procedimiento almacenado haya devuelto al menos una tabla y una fila
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow row = ds.Tables[0].Rows[0]; // Obtenemos la primera fila
+
+                    loteProducto.ProductoId = Convert.ToInt32(row["ProductoId"]);
+                    loteProducto.CodigoLote = row["CodigoLote"].ToString();
+                    loteProducto.FechaVencimiento = Convert.ToDateTime(row["FechaVencimiento"]);
+                    loteProducto.CantidadInicial = Convert.ToInt32(row["CantidadInicial"]);
+                }
+            }
+
+            return loteProducto;
+        }
+
+        public List<MostrarLoteProducto> ObtenerLoteProductos()
+        {
+            var productos = new List<MostrarLoteProducto>();
+
+            using (SqlConnection sqlConnection = new SqlConnection(_configuration))
+            {
+                SqlCommand cmd = new SqlCommand("dbo.Sp_MostrarLoteProductos", sqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                using SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+
+                sqlConnection.Open();
+                da.Fill(ds);
+
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    productos.Add(new MostrarLoteProducto
+                    {
+                        ProductoId = Convert.ToInt32(row["ProductoId"]),
+                        Producto = (string)row["Producto"],
+                        CodigoLoteFabricante = (string)row["CodigoLoteFabricante"],
+                        Proveedor = (string)row["Proveedor"],
+                        Precio = Convert.ToDecimal(row["Precio"]),
+                        CantidadInicial = Convert.ToInt32(row["CantidadInicial"]),
+                        StockActual = Convert.ToInt32(row["StockActual"]),
+                        Presentacion = (string)row["Presentacion"],
+                        FechaVencimiento = Convert.ToDateTime(row["FechaVencimiento"]),
+                        Estado = (string)row["Estado"]
+                    });
+
+                }
+            }
+            return productos;
+        }
     }
 }

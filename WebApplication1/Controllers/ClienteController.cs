@@ -63,7 +63,7 @@ namespace SurtidoraApi.Controllers
             }     
         }
 
-        [HttpPut("EditarClientes/{id}")] 
+        [HttpPut("EditarClientes")] 
         public IActionResult EditarCliente([FromBody] Cliente cliente) 
         {
             try

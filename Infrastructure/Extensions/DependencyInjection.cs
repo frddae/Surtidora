@@ -22,6 +22,8 @@ namespace Infrastructure.Extensions
             services.AddScoped<ObtenerProductosUseCase>();
             services.AddScoped<ObtenerProductoActivossUseCase>();
             services.AddScoped<ObtenerFacturasUseCase>();
+            services.AddScoped<InsertarLoteUseCase>();
+            services.AddScoped<ObtenerLoteProductosUseCase>();
 
             return services;
         }
