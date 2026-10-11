@@ -16,6 +16,7 @@ namespace Infrastructure.Extensions
 
             // Casos de uso
             services.AddScoped<CrearClienteUseCase>();
+            services.AddScoped<CrearProductoUseCase>();
             services.AddScoped<EditarClienteUseCase>();
             services.AddScoped<EliminarClienteUseCase>();
             services.AddScoped<ObtenerClientesUseCase>();

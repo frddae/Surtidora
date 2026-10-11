@@ -11,7 +11,7 @@ namespace Core.UseCases
         {
             _productoRepository = productoRepository;
         }
-        public List<ProductosActivos> Execute()
+        public List<Producto> Execute()
         {
             return _productoRepository.ObtenerProductosActivos();
         }

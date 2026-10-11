@@ -14,13 +14,38 @@ namespace SurtidoraApi.Controllers
         private readonly ObtenerProductoActivossUseCase _obtenerProductoActivossUseCase;
         private readonly InsertarLoteUseCase _insertarLoteUseCase;
         private readonly ObtenerLoteProductosUseCase _obtenerLoteProductosUseCase;
+        private readonly CrearProductoUseCase _crearProductoUseCase;
 
-        public ProductosController(ObtenerProductosUseCase obtenerProductosUseCase, ObtenerProductoActivossUseCase obtenerProductoActivossUseCase, InsertarLoteUseCase insertarLoteUseCase, ObtenerLoteProductosUseCase obtenerLoteProductosUseCase)
+        public ProductosController(ObtenerProductosUseCase obtenerProductosUseCase, ObtenerProductoActivossUseCase obtenerProductoActivossUseCase,
+                InsertarLoteUseCase insertarLoteUseCase, ObtenerLoteProductosUseCase obtenerLoteProductosUseCase, CrearProductoUseCase crearProductoUseCase)
         {
             _obtenerProductosUseCase = obtenerProductosUseCase;
             _obtenerProductoActivossUseCase = obtenerProductoActivossUseCase;
             _obtenerLoteProductosUseCase = obtenerLoteProductosUseCase;
             _insertarLoteUseCase = insertarLoteUseCase;
+            _crearProductoUseCase = crearProductoUseCase;
+
+        }
+
+        [HttpPost]
+        [Route("CreateProduct")]
+
+        public IActionResult CreateProduct(Producto producto)
+        {
+            try
+            {
+                int id = _crearProductoUseCase.Execute(producto);
+                producto.ProductoId = id;
+                return Ok(producto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    error = "error al crear el producto",
+                    message = ex.Message,
+                });
+            }
         }
 
         [HttpGet]
@@ -41,7 +66,7 @@ namespace SurtidoraApi.Controllers
                 });
             }
         }
-
+        
         [HttpGet]
         [Route("GetActiveProducts")]
         public IActionResult GetActiveProducts()

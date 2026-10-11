@@ -19,6 +19,22 @@ namespace Infrastructure.Data
                    nameof(configuration),
                    "no se encontro la cadena de conexion");
         }
+        public int CrearProducto(Producto producto)
+        {
+            using (SqlConnection con = new SqlConnection(_configuration))
+            {
+                SqlCommand cmd = new SqlCommand("sp_CrearProducto", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@NombreProducto", producto.NombreProducto);
+                cmd.Parameters.AddWithValue("@ProveedorId", producto.ProveedorId);
+                cmd.Parameters.AddWithValue("@Precio", producto.Precio);
+                con.Open();
+                int result = cmd.ExecuteNonQuery();//devuelve el numero de filas afectadas
+                return result;
+            }
+        }
         public List<Producto> ObtenerProductos()
         {
             var productos = new List<Producto>();
@@ -40,23 +56,20 @@ namespace Infrastructure.Data
                 {
                     productos.Add(new Producto
                     {
-                        ProductoId = Convert.ToInt32(row["ProductoId"]),
-                        NombreProducto = (string)row["Producto"],
-                        Proveedor = (string)row["Proveedor"],
-                        Precio = Convert.ToSingle(row["Precio"]),
-                        Cantidad = Convert.ToInt32(row["Cantidad"]),
-                        Presentacion = (string)row["Presentacion"],
-                        Fecha_Caducidad = Convert.ToDateTime(row["Fecha_Caducidad"]),
-                        Activo = Convert.ToBoolean(row["Activo"])
+                        ProductoId = Convert.ToInt32(row["productoId"]),
+                        NombreProducto = (string)row["producto"],
+                        ProveedorId = Convert.ToInt32(row["proveedor"]),
+                        Precio = Convert.ToSingle(row["precio"]),
+                        Activo = Convert.ToBoolean(row["activo"])
                     });
-
                 }
             }
             return productos;
         }
-        public List<ProductosActivos> ObtenerProductosActivos()
+
+        public List<Producto> ObtenerProductosActivos()
         {
-            var productos = new List<ProductosActivos>();
+            var productos = new List<Producto>();
 
             using (SqlConnection sqlConnection = new SqlConnection(_configuration))
             {
@@ -73,22 +86,20 @@ namespace Infrastructure.Data
 
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    productos.Add(new ProductosActivos
+                    productos.Add(new Producto
                     {
-                        ProductoId = Convert.ToInt32(row["ProductoId"]),
-                        NombreProducto = (string)row["Producto"],
-                        Proveedor = (string)row["Proveedor"],
-                        Precio = Convert.ToSingle(row["Precio"]),
-                        Cantidad = Convert.ToInt32(row["Cantidad"]),
-                        Presentacion = (string)row["Presentacion"],
-                        Fecha_Caducidad = Convert.ToDateTime(row["Fecha_Caducidad"]),
+                        ProductoId = Convert.ToInt32(row["productoId"]),
+                        NombreProducto = (string)row["producto"],
+                        ProveedorId = Convert.ToInt32(row["proveedor"]),
+                        Precio = Convert.ToSingle(row["precio"]),
+                        Activo = Convert.ToBoolean(row["activo"])
                     });
 
                 }
             }
             return productos;
         }
-
+        
         public LoteProducto InsertarLoteProducto(LoteProducto loteProducto)
         {
             using (SqlConnection sqlConnection = new SqlConnection(_configuration))
@@ -104,7 +115,7 @@ namespace Infrastructure.Data
                 sqlConnection.Open();
                 da.Fill(ds);
 
-                // Verificamos que el procedimiento almacenado haya devuelto al menos una tabla y una fila
+                // Verifica que el procedimiento almacenado haya devuelto al menos una tabla y una fila
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow row = ds.Tables[0].Rows[0]; // Obtenemos la primera fila

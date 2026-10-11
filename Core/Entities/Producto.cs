@@ -2,27 +2,20 @@
 
 namespace Core.Entities
 {
-    public class ProductosActivos
+    public class Producto
     {
-        [JsonPropertyName("ProductoId")]
+        [JsonPropertyName("productoId")]
         public int ProductoId { get; set; }
+        [JsonPropertyName("proveedor")]
+        public int ProveedorId { get; set; }
 
-        [JsonPropertyName("NombreProducto")]
+        [JsonPropertyName("nombreProducto")]
         public string? NombreProducto { get; set; }
-
-        [JsonPropertyName("Proveedor")]
-        public string? Proveedor { get; set; }
 
         [JsonPropertyName ("precio")]
         public float Precio { get; set; }
 
-        [JsonPropertyName("Cantidad")]
-        public int Cantidad { get; set; }
-
-        [JsonPropertyName("Presentacion")]
-        public string? Presentacion { get; set; }
-
-        [JsonPropertyName ("Fecha_Caducidad")]
-        public DateTime Fecha_Caducidad { get; set; }
+        [JsonPropertyName ("activo")]
+        public bool Activo { get; set; }
     }
 }
