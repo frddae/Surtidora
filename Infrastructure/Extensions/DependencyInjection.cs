@@ -13,8 +13,10 @@ namespace Infrastructure.Extensions
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IProductoRepository, ProductoRepository>();
             services.AddScoped<IFacturaRepository, FacturaRepository>();
+            services.AddScoped<IProveedorRepository, ProveedorRepository>();
 
             // Casos de uso
+            services.AddScoped<CrearProveedorUseCase>();
             services.AddScoped<CrearClienteUseCase>();
             services.AddScoped<CrearProductoUseCase>();
             services.AddScoped<EditarClienteUseCase>();
@@ -23,6 +25,8 @@ namespace Infrastructure.Extensions
             services.AddScoped<ObtenerProductosUseCase>();
             services.AddScoped<ObtenerProductoActivossUseCase>();
             services.AddScoped<ObtenerFacturasUseCase>();
+            services.AddScoped<ObtenerProveedoresUseCase>();
+            services.AddScoped<ObtenerProveedoresActivosUseCase>();
             services.AddScoped<InsertarLoteUseCase>();
             services.AddScoped<ObtenerLoteProductosUseCase>();
 

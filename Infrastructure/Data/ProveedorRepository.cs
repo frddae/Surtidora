@@ -10,7 +10,7 @@ namespace Infrastructure.Data
     {
         public string? _configuration;
     
-        ProveedorRepository(IConfiguration configuration)
+        public ProveedorRepository(IConfiguration configuration)
         {
             var ConectionString = configuration.GetConnectionString("Surtidora");
             _configuration = ConectionString
@@ -54,9 +54,10 @@ namespace Infrastructure.Data
                     proveedores.Add(new Proveedor
                     {
                         ProveedorId = Convert.ToInt32(row["proveedorId"]),
-                        NombreProveedor = (string)row["nombreProveedor"],
+                        NombreProveedor = (string)row["nombre"],
                         Direccion = (string)row["direccion"],
                         Telefono = (string)(row["telefono"]),
+                        FechaIngreso = Convert.ToDateTime(row["fechaRegistro"]),
                         Activo = Convert.ToBoolean(row["activo"])
                     });
                 }
@@ -82,9 +83,10 @@ namespace Infrastructure.Data
                     proveedores.Add(new Proveedor
                     {
                         ProveedorId = Convert.ToInt32(row["proveedorId"]),
-                        NombreProveedor = (string)row["nombreProveedor"],
+                        NombreProveedor = (string)row["nombre"],
                         Direccion = (string)row["direccion"],
                         Telefono = (string)(row["telefono"]),
+                        FechaIngreso = Convert.ToDateTime(row["fechaRegistro"]),
                         Activo = Convert.ToBoolean(row["activo"])
                     });
                 }

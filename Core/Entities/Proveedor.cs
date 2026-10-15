@@ -21,7 +21,8 @@ namespace Core.Entities
         [JsonPropertyName("telefono")]
         public string? Telefono { get; set; }
 
-        //fecha de ingreso
+        [JsonPropertyName("fechaIngreso")]
+        public DateTime FechaIngreso { get; set; }
 
         [JsonPropertyName("activo")]
         public bool Activo { get; set; }

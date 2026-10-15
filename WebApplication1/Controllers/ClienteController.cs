@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using System.Data;
-using Infrastructure.Data;
 using Core.Entities;
 using Core.UseCases;
-using Microsoft.AspNetCore.RateLimiting;
 
 namespace SurtidoraApi.Controllers
 {
